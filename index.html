@@ -10,124 +10,191 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f3f5f9;
-  color: #222;
+  background: #f1f5f9;
+  color: #172033;
 }
-.container {
-  max-width: 480px;
-  margin: 65px auto;
-  padding: 25px;
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 5px 25px #0001;
-}
-h2 { text-align: center; margin-bottom: 8px; }
-.desc {
+header {
+  background: #102b50;
+  color: white;
   text-align: center;
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 25px;
+  padding: 35px 15px;
 }
-label {
-  display: block;
-  margin: 15px 0 7px;
-  font-weight: bold;
-  font-size: 14px;
+header h1 { margin: 0 0 10px; }
+header p { margin: 0; color: #d5e3f5; }
+.container {
+  max-width: 650px;
+  margin: 35px auto;
+  padding: 0 18px;
+}
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.card {
+  background: white;
+  padding: 28px 12px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 15px #0000000d;
+}
+.card:hover { border-color: #2675d8; }
+.card .emoji { font-size: 38px; }
+.card h3 { font-size: 16px; }
+.card p { color: #64748b; font-size: 12px; }
+#formArea {
+  display: none;
+  background: white;
+  padding: 24px;
+  border-radius: 15px;
+  margin-top: 25px;
+  box-shadow: 0 4px 15px #0000000d;
 }
 input, select {
   width: 100%;
   padding: 13px;
-  border: 1px solid #ddd;
+  margin: 10px 0 18px;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   font-size: 15px;
 }
+label { font-weight: bold; font-size: 14px; }
 button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 22px;
-  border: 0;
-  border-radius: 8px;
-  background: #1769e0;
+  background: #1764c0;
   color: white;
-  font-size: 16px;
-  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  width: 100%;
+  font-size: 15px;
   cursor: pointer;
 }
-#hasil {
-  display: none;
-  margin-top: 20px;
-  padding: 15px;
-  background: #fff5df;
+#result {
+  margin-top: 18px;
+  padding: 14px;
+  background: #eff6ff;
   border-radius: 8px;
-  line-height: 1.6;
-  font-size: 14px;
+  display: none;
+  line-height: 1.5;
 }
-.footer {
-  text-align: center;
-  color: #999;
+.back {
+  background: #64748b;
+  margin-top: 10px;
+}
+.note {
   font-size: 12px;
-  margin-top: 25px;
+  color: #64748b;
+  line-height: 1.5;
+  margin-top: 18px;
+}
+footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  padding: 25px;
+}
+@media(max-width:400px) {
+  .choices { gap: 9px; }
 }
 </style>
 </head>
 <body>
+
+<header>
+  <h1>🔎 CEK REKENING</h1>
+  <p>Periksa informasi rekening dengan mudah</p>
+</header>
+
 <div class="container">
-  <h2>Cek Rekening</h2>
-  <p class="desc">Form pemeriksaan data rekening</p>
+  <h2 style="text-align:center">Pilih Jenis Rekening</h2>
+  <p style="text-align:center;color:#64748b">
+    Silakan pilih kategori di bawah ini
+  </p>
 
-  <label>Nama Bank</label>
-  <select id="bank">
-    <option value="">Pilih Bank</option>
-    <option>BCA</option>
-    <option>BRI</option>
-    <option>BNI</option>
-    <option>Mandiri</option>
-    <option>BSI</option>
-    <option>Bank Jago</option>
-    <option>SeaBank</option>
-    <option>CIMB Niaga</option>
-    <option>Permata Bank</option>
-    <option>Bank Lainnya</option>
-  </select>
+  <div class="choices">
+    <div class="card" onclick="pilih('bank')">
+      <div class="emoji">🏦</div>
+      <h3>REKENING BANK</h3>
+      <p>Cek rekening bank</p>
+    </div>
 
-  <label>Nomor Rekening</label>
-  <input id="rekening" type="text"
-    placeholder="Masukkan nomor rekening">
+    <div class="card" onclick="pilih('ewallet')">
+      <div class="emoji">📱</div>
+      <h3>REKENING E-WALLET</h3>
+      <p>Cek akun dompet digital</p>
+    </div>
+  </div>
 
-  <label>Nama Pemilik Rekening</label>
-  <input id="nama" type="text"
-    placeholder="Masukkan nama pemilik">
+  <div id="formArea">
+    <h2 id="judulForm">Cek Rekening</h2>
 
-  <button onclick="cekRekening()">Periksa Rekening</button>
+    <form id="cekForm">
+      <label id="labelJenis">Pilih Bank</label>
+      <select id="jenis" required></select>
 
-  <div id="hasil"></div>
+      <label>Nomor Rekening / Nomor HP</label>
+      <input id="nomor" type="text"
+        placeholder="Masukkan nomor rekening"
+        required>
 
-  <div class="footer">
-    Sistem Pemeriksaan Rekening
+      <button type="submit">CEK REKENING</button>
+    </form>
+
+    <div id="result"></div>
+    <button class="back" onclick="kembali()">Kembali</button>
+
+    <p class="note">
+      Catatan: Fitur ini masih berupa tampilan awal.
+      Pemeriksaan belum terhubung ke database resmi.
+      Jangan masukkan PIN, password, atau OTP.
+    </p>
   </div>
 </div>
 
+<footer>© 2026 CEK REKENING</footer>
+
 <script>
-function cekRekening() {
-  const bank = document.getElementById("bank").value;
-  const rekening = document.getElementById("rekening").value.trim();
-  const nama = document.getElementById("nama").value.trim();
-  const hasil = document.getElementById("hasil");
+const bank = [
+  "BCA", "BRI", "BNI", "Mandiri",
+  "BSI", "BTN", "CIMB Niaga", "Danamon",
+  "Permata Bank", "Bank Jago"
+];
 
-  hasil.style.display = "block";
+const ewallet = [
+  "DANA", "OVO", "GoPay", "ShopeePay",
+  "LinkAja"
+];
 
-  if (!bank || !rekening || !nama) {
-    hasil.innerHTML = "Mohon lengkapi semua data terlebih dahulu.";
-    return;
-  }
+function pilih(tipe) {
+  const daftar = tipe === "bank" ? bank : ewallet;
+  document.getElementById("judulForm").textContent =
+    tipe === "bank" ? "Cek Rekening Bank" : "Cek Rekening E-Wallet";
 
-  hasil.innerHTML =
-    "<b>Data berhasil dimasukkan.</b><br>" +
-    "Bank: " + bank + "<br>" +
-    "Nomor rekening: " + rekening + "<br>" +
-    "Nama pemilik: " + nama +
-    "<br><br><b>Status:</b> Data belum diverifikasi oleh bank.";
+  document.getElementById("labelJenis").textContent =
+    tipe === "bank" ? "Pilih Bank" : "Pilih E-Wallet";
+
+  document.getElementById("jenis").innerHTML =
+    '<option value="">-- Pilih --</option>' +
+    daftar.map(x => `<option value="${x}">${x}</option>`).join("");
+
+  document.getElementById("formArea").style.display = "block";
+  document.getElementById("result").style.display = "none";
+  document.getElementById("cekForm").reset();
 }
+
+function kembali() {
+  document.getElementById("formArea").style.display = "none";
+}
+
+document.getElementById("cekForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  document.getElementById("result").style.display = "block";
+  document.getElementById("result").textContent =
+    "Tampilan berhasil! Pemeriksaan rekening belum tersedia karena database belum dihubungkan.";
+});
 </script>
+
 </body>
 </html>
