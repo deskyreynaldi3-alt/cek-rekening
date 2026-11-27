@@ -3,198 +3,160 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cek Rekening</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grand Line — Cek Rekening</title>
 <style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f5f9;
-  color: #172033;
+:root{
+ --sea:#071c2b;--deep:#04121d;--panel:#102b3b;--panel2:#14384a;
+ --gold:#f4c45e;--gold2:#ffe09a;--red:#c9473d;--cream:#f5e9c9;
+ --muted:#a9bbc2;--line:#426071;--green:#b8db83;
 }
-header {
-  background: #102b50;
-  color: white;
-  text-align: center;
-  padding: 35px 15px;
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:var(--cream);
+ font-family:Georgia,"Trebuchet MS",sans-serif;
+ background:
+  radial-gradient(ellipse at 50% 0%,#1d5368 0,transparent 46%),
+  linear-gradient(180deg,#0a2a3d 0%,#061824 58%,#03101a 100%);
+ padding:34px 18px 26px;
 }
-header h1 { margin: 0 0 10px; }
-header p { margin: 0; color: #d5e3f5; }
-.container {
-  max-width: 650px;
-  margin: 35px auto;
-  padding: 0 18px;
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;
+ background-image:radial-gradient(#e8d5a8 0.7px,transparent .7px);
+ background-size:9px 9px;
 }
-.choices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+main{max-width:1120px;margin:auto;position:relative}
+.top{text-align:center;margin:0 auto 28px}
+.flag{display:inline-flex;align-items:center;gap:10px;color:var(--gold);font-size:10px;font-weight:bold;letter-spacing:4px}
+.flag:before,.flag:after{content:"";height:1px;width:34px;background:var(--gold);opacity:.7}
+h1{font-size:clamp(30px,5vw,48px);margin:10px 0 5px;color:var(--gold2);letter-spacing:1px;text-shadow:0 3px 0 #542d20,0 7px 20px #0008}
+.subtitle{font-family:Arial,sans-serif;color:#c1d1d3;font-size:12px;letter-spacing:.5px}
+.route{margin:18px auto 0;display:flex;justify-content:center;align-items:center;gap:10px;color:var(--gold);font-size:10px;letter-spacing:2px}
+.route span{height:1px;width:55px;background:linear-gradient(90deg,transparent,var(--gold))}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{
+ position:relative;overflow:hidden;border:1px solid #6d7e70;border-radius:18px;
+ padding:22px;background:
+ linear-gradient(145deg,rgba(25,65,82,.96),rgba(8,29,43,.98));
+ box-shadow:0 18px 38px #0006,inset 0 0 0 4px #e6c16c0b;
 }
-.card {
-  background: white;
-  padding: 28px 12px;
-  border-radius: 15px;
-  text-align: center;
-  cursor: pointer;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 15px #0000000d;
+.card:before{content:"";position:absolute;inset:7px;border:1px dashed #d9b96745;border-radius:12px;pointer-events:none}
+.card:after{content:"";position:absolute;right:-24px;top:-32px;width:115px;height:115px;border:1px solid #e9c56b22;border-radius:50%;box-shadow:0 0 0 12px #e9c56b08,0 0 0 25px #e9c56b06;pointer-events:none}
+.card-head{display:flex;align-items:center;gap:12px;margin:0 0 22px;position:relative;z-index:1}
+.emblem{height:42px;width:42px;display:grid;place-items:center;border-radius:13px;background:#e8c16a17;border:1px solid #e8c16a70;color:var(--gold);font-size:22px}
+.wallet .emblem{color:#9bd5e4;border-color:#79b9cb77;background:#79b9cb18}
+.step{font:800 9px Arial,sans-serif;letter-spacing:2px;color:var(--gold)}
+h2{font-size:17px;margin:5px 0 0;color:#fff1cf}
+label{display:block;font:800 9px Arial,sans-serif;letter-spacing:1.2px;color:#d4c59f;margin:0 0 8px}
+select,input{
+ width:100%;height:44px;padding:0 13px;margin:0 0 16px;
+ border:1px solid #547080;border-radius:9px;background:#061b29;color:#fff2d6;
+ font:13px Arial,sans-serif;outline:none;
 }
-.card:hover { border-color: #2675d8; }
-.card .emoji { font-size: 38px; }
-.card h3 { font-size: 16px; }
-.card p { color: #64748b; font-size: 12px; }
-#formArea {
-  display: none;
-  background: white;
-  padding: 24px;
-  border-radius: 15px;
-  margin-top: 25px;
-  box-shadow: 0 4px 15px #0000000d;
+select:focus,input:focus{border-color:var(--gold);box-shadow:0 0 0 3px #f4c45e1c}
+input::placeholder{color:#8299a3}
+.verify{
+ width:100%;height:43px;border:1px solid #f8d77e;border-radius:9px;
+ background:linear-gradient(180deg,#f6d47f,#dcae4d);color:#392611;
+ font:900 10px Arial,sans-serif;letter-spacing:1px;cursor:pointer;
+ display:flex;align-items:center;justify-content:space-between;padding:0 15px;
+ box-shadow:0 3px 0 #805b2c;
 }
-input, select {
-  width: 100%;
-  padding: 13px;
-  margin: 10px 0 18px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 15px;
-}
-label { font-weight: bold; font-size: 14px; }
-button {
-  background: #1764c0;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 14px;
-  width: 100%;
-  font-size: 15px;
-  cursor: pointer;
-}
-#result {
-  margin-top: 18px;
-  padding: 14px;
-  background: #eff6ff;
-  border-radius: 8px;
-  display: none;
-  line-height: 1.5;
-}
-.back {
-  background: #64748b;
-  margin-top: 10px;
-}
-.note {
-  font-size: 12px;
-  color: #64748b;
-  line-height: 1.5;
-  margin-top: 18px;
-}
-footer {
-  text-align: center;
-  color: #64748b;
-  font-size: 12px;
-  padding: 25px;
-}
-@media(max-width:400px) {
-  .choices { gap: 9px; }
-}
+.verify:active{transform:translateY(2px);box-shadow:0 1px 0 #805b2c}
+.verify:disabled{opacity:.65;cursor:wait}
+.result-label{font:900 9px Arial,sans-serif;letter-spacing:2px;color:#d4c59f;margin:20px 0 9px}
+.result{min-height:66px;border:1px solid #69794f;background:#102a2a;border-radius:11px;padding:12px;display:flex;align-items:center;gap:11px;position:relative;z-index:1}
+.result.pending{border-color:#506474;background:#102331}
+.result.error{border-color:#9a4b4a;background:#2b1d25}
+.mark{width:29px;height:29px;flex:0 0 29px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#142315;font:bold 16px Arial}
+.result.error .mark{background:#a94745;color:#fff}
+.result-copy{flex:1;min-width:0}
+.name{font-size:17px;font-weight:bold;font-style:italic;overflow-wrap:anywhere;color:#fff0c8}
+.detail{font:10px Arial,sans-serif;color:#a9bbc2;margin-top:5px;line-height:1.4;overflow-wrap:anywhere}
+.copy{border:1px solid #72838a;border-radius:7px;padding:8px;background:#0a1c28;color:#e8d9b5;font:800 8px Arial,sans-serif;cursor:pointer}
+.notice{max-width:900px;margin:18px auto 0;text-align:center;color:#aabdc1;font:11px/1.65 Arial,sans-serif}
+.notice strong{color:var(--gold2)}
+.foot{text-align:center;color:#738b94;font:9px Arial,sans-serif;letter-spacing:1.2px;margin-top:22px}
+@media(max-width:720px){body{padding:25px 13px}.cards{grid-template-columns:1fr}.card{padding:20px}}
 </style>
 </head>
 <body>
-
-<header>
-  <h1>🔎 CEK REKENING</h1>
-  <p>Periksa informasi rekening dengan mudah</p>
+<main>
+<header class="top">
+ <div class="flag">PIRATE CREW • ACCOUNT CHECK</div>
+ <h1>GRAND LINE</h1>
+ <div class="subtitle">Temukan nama pemilik rekening sebelum memulai pelayaran transfer.</div>
+ <div class="route"><span></span> BANK &amp; E-WALLET CHECK <span></span></div>
 </header>
 
-<div class="container">
-  <h2 style="text-align:center">Pilih Jenis Rekening</h2>
-  <p style="text-align:center;color:#64748b">
-    Silakan pilih kategori di bawah ini
-  </p>
+<section class="cards">
+ <article class="card">
+  <div class="card-head"><div class="emblem">⚓</div><div><div class="step">01 / TREASURE VAULT</div><h2>Bank Account</h2></div></div>
+  <label for="bankSelect">PILIH BANK</label>
+  <select id="bankSelect"><option value="">Pilih bank tujuan</option></select>
+  <label for="bankNumber">NOMOR REKENING</label>
+  <input id="bankNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="Masukkan nomor rekening">
+  <button class="verify" id="bankButton" type="button"><span>CEK NAMA PEMILIK</span><span>➜</span></button>
+  <div class="result-label">HASIL PENCARIAN</div>
+  <div class="result pending" id="bankResult" aria-live="polite"><div class="mark">✦</div><div class="result-copy"><div class="name">Siap berlayar?</div><div class="detail">Hasil pengecekan rekening muncul di sini.</div></div></div>
+ </article>
 
-  <div class="choices">
-    <div class="card" onclick="pilih('bank')">
-      <div class="emoji">🏦</div>
-      <h3>REKENING BANK</h3>
-      <p>Cek rekening bank</p>
-    </div>
-
-    <div class="card" onclick="pilih('ewallet')">
-      <div class="emoji">📱</div>
-      <h3>REKENING E-WALLET</h3>
-      <p>Cek akun dompet digital</p>
-    </div>
-  </div>
-
-  <div id="formArea">
-    <h2 id="judulForm">Cek Rekening</h2>
-
-    <form id="cekForm">
-      <label id="labelJenis">Pilih Bank</label>
-      <select id="jenis" required></select>
-
-      <label>Nomor Rekening / Nomor HP</label>
-      <input id="nomor" type="text"
-        placeholder="Masukkan nomor rekening"
-        required>
-
-      <button type="submit">CEK REKENING</button>
-    </form>
-
-    <div id="result"></div>
-    <button class="back" onclick="kembali()">Kembali</button>
-
-    <p class="note">
-      Catatan: Fitur ini masih berupa tampilan awal.
-      Pemeriksaan belum terhubung ke database resmi.
-      Jangan masukkan PIN, password, atau OTP.
-    </p>
-  </div>
-</div>
-
-<footer>© 2026 CEK REKENING</footer>
-
+ <article class="card wallet">
+  <div class="card-head"><div class="emblem">☠</div><div><div class="step">02 / CREW PURSE</div><h2>Wallet Account</h2></div></div>
+  <label for="walletSelect">PILIH E-WALLET</label>
+  <select id="walletSelect">
+   <option value="">Pilih provider</option>
+   <option value="ovo">OVO</option><option value="dana">DANA</option>
+   <option value="linkaja">LinkAja</option><option value="gopay">GoPay</option>
+   <option value="shopeepay">ShopeePay</option>
+  </select>
+  <label for="walletNumber">NOMOR HP / AKUN</label>
+  <input id="walletNumber" type="text" inputmode="numeric" autocomplete="off" placeholder="Masukkan nomor HP / akun">
+  <button class="verify" id="walletButton" type="button"><span>CEK NAMA PEMILIK</span><span>➜</span></button>
+  <div class="result-label">HASIL PENCARIAN</div>
+  <div class="result pending" id="walletResult" aria-live="polite"><div class="mark">✦</div><div class="result-copy"><div class="name">Siap berlayar?</div><div class="detail">Hasil pengecekan e-wallet muncul di sini.</div></div></div>
+ </article>
+</section>
+<p class="notice"><strong>Catatan:</strong> Permintaan verifikasi mengirim nomor rekening/HP dan provider ke API pihak ketiga. Jangan masukkan PIN, password, atau OTP. API ini belum dipastikan aktif, aman, atau mendukung seluruh provider. Selalu cocokkan nama penerima di aplikasi resmi sebelum transfer.</p>
+<div class="foot">FOLLOW THE LOG POSE • CHECK BEFORE YOU TRANSFER</div>
+</main>
 <script>
-const bank = [
-  "BCA", "BRI", "BNI", "Mandiri",
-  "BSI", "BTN", "CIMB Niaga", "Danamon",
-  "Permata Bank", "Bank Jago"
+const API_URL="https://cekrekening-api.belibayar.online/api/v1/account-inquiry";
+const banks=[
+["harda","Allo Bank / Bank Harda Internasional"],["anz","ANZ Indonesia"],["aceh","Bank Aceh Syariah"],["aladin","Bank Aladin Syariah"],["amar","Bank Amar Indonesia"],["antardaerah","Bank Antardaerah"],["artha","Bank Artha Graha Internasional"],["bengkulu","Bank Bengkulu"],["daerah_istimewa","Bank BPD DIY"],["daerah_istimewa_syr","Bank BPD DIY Syariah"],["btpn_syr","Bank BTPN Syariah"],["bukopin_syr","Bank Bukopin Syariah"],["bumi_arta","Bank Bumi Arta"],["capital","Bank Capital Indonesia"],["bca","Bank Central Asia"],["ccb","Bank China Construction Bank Indonesia"],["cnb","Bank CNB"],["danamon","Bank Danamon"],["dinar","Bank Dinar Indonesia"],["dki","Bank DKI"],["dki_syr","Bank DKI Syariah"],["ganesha","Bank Ganesha"],["agris","Bank IBK Indonesia"],["ina_perdana","Bank Ina Perdana"],["index_selindo","Bank Index Selindo"],["artos_syr","Bank Jago Syariah"],["jambi","Bank Jambi"],["jambi_syr","Bank Jambi Syariah"],["jasa_jakarta","Bank Jasa Jakarta"],["jawa_tengah","Bank Jateng"],["jawa_tengah_syr","Bank Jateng Syariah"],["jawa_timur","Bank Jatim"],["jawa_timur_syr","Bank Jatim Syariah"],["kalimantan_barat","Bank Kalbar"],["kalimantan_barat_syr","Bank Kalbar Syariah"],["kalimantan_selatan","Bank Kalsel"],["kalimantan_selatan_syr","Bank Kalsel Syariah"],["kalimantan_tengah","Bank Kalteng"],["kalimantan_timur_syr","Bank Kaltim Syariah"],["kalimantan_timur","Bank Kaltimtara"],["lampung","Bank Lampung"],["maluku","Bank Maluku"],["mandiri","Bank Mandiri"],["mantap","Bank MANTAP"],["maspion","Bank Maspion Indonesia"],["mayapada","Bank Mayapada"],["mayora","Bank Mayora Indonesia"],["mega","Bank Mega"],["mega_syr","Bank Mega Syariah"],["mestika_dharma","Bank Mestika Dharma"],["mizuho","Bank Mizuho Indonesia"],["mas","Bank Multi Arta Sentosa"],["mutiara","Bank Mutiara"],["sumatera_barat","Bank Nagari"],["sumatera_barat_syr","Bank Nagari Syariah"],["nusa_tenggara_barat","Bank NTB Syariah"],["nusa_tenggara_timur","Bank NTT"],["nusantara_parahyangan","Bank Nusantara Parahyangan"],["ocbc","Bank OCBC NISP"],["ocbc_syr","Bank OCBC NISP Syariah"],["america_na","Bank of America NA"],["boc","Bank of China"],["india","Bank of India Indonesia"],["tokyo","Bank of Tokyo Mitsubishi UFJ"],["papua","Bank Papua"],["prima","Bank Prima Master"],["bri","Bank Rakyat Indonesia"],["riau_dan_kepri","Bank Riau Kepri"],["sahabat_sampoerna","Bank Sahabat Sampoerna"],["shinhan","Bank Shinhan Indonesia"],["sinarmas","Bank Sinarmas"],["sinarmas_syr","Bank Sinarmas Syariah"],["sulselbar","Bank Sulselbar"],["sulselbar_syr","Bank Sulselbar Syariah"],["sulawesi","Bank Sulteng"],["sulawesi_tenggara","Bank Sultra"],["sulut","Bank SulutGo"],["sumsel_dan_babel","Bank Sumsel Babel"],["sumsel_dan_babel_syr","Bank Sumsel Babel Syariah"],["sumut","Bank Sumut"],["sumut_syr","Bank Sumut Syariah"],["resona_perdania","Bank Resona Perdania"],["victoria_internasional","Bank Victoria International"],["victoria_syr","Bank Victoria Syariah"],["woori","Bank Woori Saudara"],["bca_syr","BCA Syariah"],["bjb","BJB"],["bjb_syr","BJB Syariah"],["royal","Blu / BCA Digital"],["bni","BNI"],["bnp_paribas","BNP Paribas Indonesia"],["bali","BPD Bali"],["banten","BPD Banten"],["eka","BPR EKA"],["agroniaga","BRI Agroniaga"],["bsm","BSI"],["btn","BTN"],["btn_syr","BTN Syariah"],["tabungan_pensiunan_nasional","BTPN"],["cimb","CIMB Niaga"],["citibank","Citibank"],["commonwealth","Commonwealth Bank"],["chinatrust","CTBC Indonesia"],["dbs","DBS Indonesia"],["hsbc","HSBC Indonesia"],["icbc","ICBC Indonesia"],["artos","Jago / Artos"],["hana","LINE Bank / KEB Hana"],["bii","Maybank Indonesia"],["bii_syr","Maybank Syariah"],["mnc_internasional","Motion / MNC Bank"],["muamalat","Muamalat"],["yudha_bakti","Neo Commerce"],["nationalnobu","Nobu Bank"],["panin","Panin Bank"],["panin_syr","Panin Dubai Syariah"],["permata","Permata"],["permata_syr","Permata Syariah"],["qnb_kesawan","QNB Indonesia"],["rabobank","Rabobank Indonesia"],["sbi_indonesia","SBI Indonesia"],["kesejahteraan_ekonomi","Seabank / Bank BKE"],["standard_chartered","Standard Chartered"],["super_bank","Superbank"],["uob","TMRW / UOB"],["bukopin","Wokee / Bukopin"],["krom","Krom Bank Indonesia"]
 ];
-
-const ewallet = [
-  "DANA", "OVO", "GoPay", "ShopeePay",
-  "LinkAja"
-];
-
-function pilih(tipe) {
-  const daftar = tipe === "bank" ? bank : ewallet;
-  document.getElementById("judulForm").textContent =
-    tipe === "bank" ? "Cek Rekening Bank" : "Cek Rekening E-Wallet";
-
-  document.getElementById("labelJenis").textContent =
-    tipe === "bank" ? "Pilih Bank" : "Pilih E-Wallet";
-
-  document.getElementById("jenis").innerHTML =
-    '<option value="">-- Pilih --</option>' +
-    daftar.map(x => `<option value="${x}">${x}</option>`).join("");
-
-  document.getElementById("formArea").style.display = "block";
-  document.getElementById("result").style.display = "none";
-  document.getElementById("cekForm").reset();
+const bankSelect=document.getElementById("bankSelect");
+banks.sort((a,b)=>a[1].localeCompare(b[1],"id")).forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;bankSelect.appendChild(o);});
+function showResult(el,type,title,detail,copyName){
+ el.className="result "+type;el.replaceChildren();
+ const mark=document.createElement("div");mark.className="mark";mark.textContent=type==="error"?"!":"✓";
+ const wrap=document.createElement("div");wrap.className="result-copy";
+ const name=document.createElement("div");name.className="name";name.textContent=title;
+ const sub=document.createElement("div");sub.className="detail";sub.textContent=detail;
+ wrap.append(name,sub);el.append(mark,wrap);
+ if(copyName){const b=document.createElement("button");b.className="copy";b.textContent="SALIN NAMA";b.onclick=async()=>{try{await navigator.clipboard.writeText(copyName);b.textContent="TERSALIN";}catch{b.textContent="GAGAL";}};el.append(b);}
 }
-
-function kembali() {
-  document.getElementById("formArea").style.display = "none";
+async function verify(kind){
+ const bank=kind==="bank",sel=document.getElementById(bank?"bankSelect":"walletSelect"),num=document.getElementById(bank?"bankNumber":"walletNumber"),btn=document.getElementById(bank?"bankButton":"walletButton"),res=document.getElementById(bank?"bankResult":"walletResult");
+ const provider=sel.value,account=num.value.trim();
+ if(!provider){showResult(res,"error","Pilih provider dahulu","Kolom pilihan belum diisi.");return;}
+ if(!account){showResult(res,"error","Nomor belum diisi","Masukkan nomor rekening atau nomor HP.");return;}
+ btn.disabled=true;btn.querySelector("span").textContent="SEDANG CEK...";
+ showResult(res,"pending","Sedang memeriksa...","Menghubungi layanan API.");
+ try{
+  const response=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({account_bank:provider,account_number:account})});
+  let data={};try{data=await response.json();}catch{}
+  if(!response.ok)throw new Error(data.message||`Server merespons HTTP ${response.status}`);
+  const holder=data?.data?.account_holder;
+  if(typeof holder!=="string"||!holder.trim())throw new Error("Respons API tidak berisi nama pemilik rekening.");
+  showResult(res,"success",holder.trim(),`${sel.options[sel.selectedIndex].text} • ${account}`,holder.trim());
+ }catch(err){
+  const msg=err instanceof TypeError?"Tidak dapat terhubung. API mungkin offline atau akses browser (CORS) ditolak.":(err.message||"Pemeriksaan gagal.");
+  showResult(res,"error","Verifikasi gagal",msg);
+ }finally{btn.disabled=false;btn.querySelector("span").textContent="CEK NAMA PEMILIK";}
 }
-
-document.getElementById("cekForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-  document.getElementById("result").style.display = "block";
-  document.getElementById("result").textContent =
-    "Tampilan berhasil! Pemeriksaan rekening belum tersedia karena database belum dihubungkan.";
-});
+document.getElementById("bankButton").addEventListener("click",()=>verify("bank"));
+document.getElementById("walletButton").addEventListener("click",()=>verify("wallet"));
 </script>
-
 </body>
 </html>
