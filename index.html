@@ -1,1 +1,133 @@
-index.html
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cek Rekening</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f5f9;
+  color: #222;
+}
+.container {
+  max-width: 480px;
+  margin: 65px auto;
+  padding: 25px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 5px 25px #0001;
+}
+h2 { text-align: center; margin-bottom: 8px; }
+.desc {
+  text-align: center;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+label {
+  display: block;
+  margin: 15px 0 7px;
+  font-weight: bold;
+  font-size: 14px;
+}
+input, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 22px;
+  border: 0;
+  border-radius: 8px;
+  background: #1769e0;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#hasil {
+  display: none;
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff5df;
+  border-radius: 8px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  margin-top: 25px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Cek Rekening</h2>
+  <p class="desc">Form pemeriksaan data rekening</p>
+
+  <label>Nama Bank</label>
+  <select id="bank">
+    <option value="">Pilih Bank</option>
+    <option>BCA</option>
+    <option>BRI</option>
+    <option>BNI</option>
+    <option>Mandiri</option>
+    <option>BSI</option>
+    <option>Bank Jago</option>
+    <option>SeaBank</option>
+    <option>CIMB Niaga</option>
+    <option>Permata Bank</option>
+    <option>Bank Lainnya</option>
+  </select>
+
+  <label>Nomor Rekening</label>
+  <input id="rekening" type="text"
+    placeholder="Masukkan nomor rekening">
+
+  <label>Nama Pemilik Rekening</label>
+  <input id="nama" type="text"
+    placeholder="Masukkan nama pemilik">
+
+  <button onclick="cekRekening()">Periksa Rekening</button>
+
+  <div id="hasil"></div>
+
+  <div class="footer">
+    Sistem Pemeriksaan Rekening
+  </div>
+</div>
+
+<script>
+function cekRekening() {
+  const bank = document.getElementById("bank").value;
+  const rekening = document.getElementById("rekening").value.trim();
+  const nama = document.getElementById("nama").value.trim();
+  const hasil = document.getElementById("hasil");
+
+  hasil.style.display = "block";
+
+  if (!bank || !rekening || !nama) {
+    hasil.innerHTML = "Mohon lengkapi semua data terlebih dahulu.";
+    return;
+  }
+
+  hasil.innerHTML =
+    "<b>Data berhasil dimasukkan.</b><br>" +
+    "Bank: " + bank + "<br>" +
+    "Nomor rekening: " + rekening + "<br>" +
+    "Nama pemilik: " + nama +
+    "<br><br><b>Status:</b> Data belum diverifikasi oleh bank.";
+}
+</script>
+</body>
+</html>
